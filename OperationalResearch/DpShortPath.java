@@ -1,4 +1,8 @@
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class DpShortPath {
 
@@ -17,9 +21,17 @@ public class DpShortPath {
 		map.put("k", "i,4;j,3;f,1;h,2");
 		
 		loopHashMap(map);
+		String key=Collections.min(dic.entrySet(), new Comparator<Map.Entry<String,Integer>>() {
+	        @Override
+	        public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+	            return o1.getValue().intValue() - o2.getValue().intValue();
+	        }})
+	        .getKey();
+		System.out.println("Final Path:" +key+"  Min Cost:"+dic.get(key));
 	}
 	
 	static int count=0;
+	static HashMap<String,Integer> dic=new HashMap<String,Integer>();
 	
 	private static void loopHashMap(HashMap<String,String> map) {
 		String start="a";
@@ -48,6 +60,7 @@ public class DpShortPath {
 					sb.append("-"+list[0]);
 					sum=sum+Integer.parseInt(list[1]);
 					System.out.println("Path:"+count+"  "+sb.toString()+" Sum:"+sum);
+					dic.put(sb.toString(),sum);
 				}
 				else {
 					sum=sum+Integer.parseInt(list[1]);
